@@ -4,16 +4,19 @@
   <link rel="stylesheet" type="text/css" href="css/style.css" >
   <link rel="stylesheet" type="text/css" href="css/msgBoxLight.css" >
   <script src='js/jquery-1.9.1.min.js'></script>
+  <script src='js/jquery.simple-color-picker.js'></script>
+  <script src='js/jquery.customSelect.js'></script>
   <script src='js/jquery.msgBox.js'></script>
   <script src='js/localstorage.js'></script>
+  <script src='js/stiky.note.js'></script>
   <script src='js/main.js'></script>
-  <script src='js/events.js'></script>
+
 </head>
 <body>
   <button id="newNoteButton" onclick="newNote()">New Note</button>
   
   <!-- Name to appear one username is selected -->
-  <div id="chosen-name"></div>
+  <span id="chosen-name"></span>
   
   <!-- Dark Overlay Background -->
   <div class="overlay" id="overlay" style="display:none;"></div>
@@ -22,8 +25,9 @@
   <div class="box" id="box">
     <a class="boxclose" id="boxclose"></a>
     <h1>Please Select your Username</h1>
-    <p>
-      <select id="username" size="1">
+    <div class="clear"></div>
+    <span id="userbox" class="customSelect" >
+      <select id="username" class="styled hasCustomSelect" size="1">
          <option value="" selected="selected">Select a username</option>
          <option value="Alice">Alice</option>
          <option value="Cheshire">Cheshire</option>
@@ -31,7 +35,7 @@
          <option value="Bob">Bob</option>         
          <option value="John Doe">John Doe</option>
       </select>
-    </p>
+    </span>
   </div>
 </body>
 </html>
