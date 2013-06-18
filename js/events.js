@@ -22,7 +22,8 @@ $(function() {
       $.msgBox({
         type   : 'info',  
         title  : 'Username chosen',
-        content: 'Hello ' + currentUser + ' !'
+        content: 'Hello ' + currentUser + ' !',
+        beforeClose: function () { loadNotes(currentUser) }
       });
     }
     $('#boxclose').click();

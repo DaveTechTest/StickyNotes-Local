@@ -1,16 +1,16 @@
+var ns = "StickyNote", 
+     db = utils.storage;
+db.init(ns, true);
 
-var db = utils.storage;
-db.init("StickyNotes", true);
+var captured = null,
+    highestZ = 0,
+    highestId = 0,
+    currentUser = "";
 
-var captured = null;
-var highestZ = 0;
-var highestId = 0;
-var currentUser = "";
-
-function Note()
-{
+function Note() {
+  
   var self = this;
-
+  
   var note = document.createElement('div');
   note.className = 'note';
   note.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
@@ -140,7 +140,7 @@ Note.prototype = {
       newNote.left = note.left;
       newNote.text = note.text
       newNote.timestamp = note.timestamp;
-      var noteToSave = { id: newNote.id, left: newNote.left, top: newNote.top, zIndex: note.zIndex, text: newNote.text, timestamp: newNote.timestamp }
+      var noteToSave = { id: newNote.id, username: newNote.username, left: newNote.left, top: newNote.top, zIndex: note.zIndex, text: newNote.text, timestamp: newNote.timestamp }
       db.save(newNote.id, newNote);
       // console.log(newNote);
     }
@@ -150,7 +150,7 @@ Note.prototype = {
     this.timestamp = new Date().getTime();
     var note = this;
     // console.log(note);
-    var noteToSave = { id: note.id, left: note.left, top: note.top, zIndex: note.zIndex, text: '', timestamp: note.timestamp }
+    var noteToSave = { id: note.id, username: note.username, left: note.left, top: note.top, zIndex: note.zIndex, text: '', timestamp: note.timestamp }
     db.save(note.id, noteToSave);
   },
 
@@ -203,31 +203,29 @@ Note.prototype = {
   },
 }
 
-function initNotes() {
-var localStorageKeys = Object.keys(localStorage);
-// console.log(localStorageKeys);
-for (var key in localStorageKeys){
-    var currKey = parseInt(key) + 1;
-    if( db.exists(currKey) ) {
-    var currNote = db.read(currKey);
-    
-    var note = new Note();
-    note.id = currNote.id;
-    note.text =currNote.text;
-    note.timestamp =currNote.timestamp;
-    note.left = currNote.left;
-    note.top = currNote.top;
-    note.zIndex = currNote.zindex;
-    note.setLeft(note.left);
-    note.setTop(note.top);
-    if (currNote.id > highestId)
-      highestId = currNote.id;
-    if (currNote.zindex > highestZ)
-      highestZ = currNote.zindex;			
+/**
+ * Fetch notes assigned to username
+ */
+function loadNotes(username) {
+  var localStorageKeys = Object.keys(localStorage);
+  for (var i=0; i<localStorageKeys.length; i++) {
+    var currKey = localStorageKeys[i].replace(ns + '_', "") // StickyNote_123 => 123
+    if( db.exists(currKey)) {
+      var currNote = db.read(currKey);
+      if(currNote.username != currentUser) continue; // Skip this note (not assigned to user)
+      var note = new Note();
+      note.id = currNote.id;
+      note.text = currNote.text;
+      note.timestamp =currNote.timestamp;
+      note.left = currNote.left;
+      note.top = currNote.top;
+      note.zIndex = currNote.zindex;
+      note.setLeft(note.left);
+      note.setTop(note.top);
+      if (currNote.id > highestId) highestId = currNote.id;
+      if (currNote.zindex > highestZ) highestZ = currNote.zindex;			
+    }
   }
-  // console.log(key)
-}
-return;
 }
 
 function modifiedString(date) {
@@ -241,7 +239,6 @@ function newNote() {
   note.left = Math.round(Math.random() * 400) + 'px';
   note.top = Math.round(Math.random() * 500) + 'px';
   note.zIndex = ++highestZ;
+  note.username = currentUser;
   note.saveAsNew();
 }
-
-if (db != null) addEventListener('load', initNotes, false);
