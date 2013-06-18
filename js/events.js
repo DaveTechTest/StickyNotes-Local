@@ -11,6 +11,11 @@ $(function() {
   });
   
   $('#username').click(function() { // Overlay user selectection
-    currentUser = this.value;
+    currentUser = this.value;    
+    $.msgBox({
+      title:  'Username chosen',
+      content:'Hello World! ' + currentUser
+    });
+
   });
 });
