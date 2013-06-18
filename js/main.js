@@ -5,6 +5,7 @@ db.init("StickyNotes", true);
 var captured = null;
 var highestZ = 0;
 var highestId = 0;
+var currentUser = "";
 
 function Note()
 {

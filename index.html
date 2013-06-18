@@ -3,32 +3,30 @@
   <title>Stricky Notes by Davis</title>
   <link rel="stylesheet" type="text/css" href="css/style.css" >
   <script src='js/jquery-1.9.1.min.js'></script>
+  <script src='jquery.msgBox.js'></script>
   <script src='js/localstorage.js'></script>
   <script src='js/main.js'></script>
+  <script src='js/events.js'></script>
 </head>
 <body>
   <button id="newNoteButton" onclick="newNote()">New Note</button>
-  <script>
-$(function() {
-	$('#overlay').fadeIn('fast',function(){
-		$('#box').animate({'top':'160px'},500);
-	});
-
-    $('#boxclose').click(function(){
-        $('#box').animate({'top':'-200px'},500,function(){
-            $('#overlay').fadeOut('fast');
-        });
-    }); 
-});
-</script>
+  <div id="chosen-name"></div>
   <!-- Dark Overlay Background -->
   <div class="overlay" id="overlay" style="display:none;"></div>
    
   <!-- Overlay Box -->
   <div class="box" id="box">
-   <a class="boxclose" id="boxclose"></a>
-   <h1>Please Select your Username</h1>
-   <p>Username Select Box goes here</p>
+    <a class="boxclose" id="boxclose"></a>
+    <h1>Please Select your Username</h1>
+    <p>
+      <select id="username" size="1">
+         <option value="nothing" selected="selected">Select a username</option>
+         <option value="Alice">Alice</option>
+         <option value="Bob">Bob</option>
+         <option value="John Doe">John Doe</option>
+         <option value="John Doe">Jane Smith</option>         
+    </select>
+  </p>
   </div>
 </body>
 </html>
