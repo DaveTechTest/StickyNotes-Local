@@ -9,254 +9,239 @@ var currentUser = "";
 
 function Note()
 {
-    var self = this;
+  var self = this;
 
-    var note = document.createElement('div');
-    note.className = 'note';
-    note.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
-    note.addEventListener('click', function() { return self.onNoteClick() }, false);
-    this.note = note;
+  var note = document.createElement('div');
+  note.className = 'note';
+  note.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
+  note.addEventListener('click', function() { return self.onNoteClick() }, false);
+  this.note = note;
 
-    var close = document.createElement('div');
-    close.className = 'closebutton';
-    close.addEventListener('click', function(event) { return self.close(event) }, false);
-    note.appendChild(close);
+  var close = document.createElement('div');
+  close.className = 'closebutton';
+  close.addEventListener('click', function(event) { return self.close(event) }, false);
+  note.appendChild(close);
 
-    var edit = document.createElement('div');
-    edit.className = 'edit';
-    edit.setAttribute('contenteditable', true);
-    edit.addEventListener('keyup', function() { return self.onKeyUp() }, false);
-    note.appendChild(edit);
-    this.editField = edit;
+  var edit = document.createElement('div');
+  edit.className = 'edit';
+  edit.setAttribute('contenteditable', true);
+  edit.addEventListener('keyup', function() { return self.onKeyUp() }, false);
+  note.appendChild(edit);
+  this.editField = edit;
 
-    var ts = document.createElement('div');
-    ts.className = 'timestamp';
-    ts.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
-    note.appendChild(ts);
-    this.lastModified = ts;
+  var ts = document.createElement('div');
+  ts.className = 'timestamp';
+  ts.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
+  note.appendChild(ts);
+  this.lastModified = ts;
 
-    document.body.appendChild(note);
-    return this;
+  document.body.appendChild(note);
+  return this;
 }
 
 Note.prototype = {
-   
-    get id()
-    {
-        if (!("_id" in this))
-            this._id = 0;
-        return this._id;
-    },
+ 
+  get id() {
+    if (!("_id" in this)) this._id = 0;
+    return this._id;
+  },
 
-    set id(x)
-    {
-        this._id = x;
-    },
-	
-    get text()
-    {
-        return this.editField.innerHTML;
-    },
+  set id(x) {
+    this._id = x;
+  },
 
-    set text(x)
-    {
-        this.editField.innerHTML = x;
-    },
+  get text() {
+    return this.editField.innerHTML;
+  },
 
-    get timestamp()
-    {
-        if (!("_timestamp" in this))
-            this._timestamp = 0;
-        return this._timestamp;
-    },
+  set text(x) {
+    this.editField.innerHTML = x;
+  },
 
-    set timestamp(x)
-    {
-        if (this._timestamp == x)
-            return;
+  get timestamp() {
+    if (!("_timestamp" in this)) this._timestamp = 0;
+    return this._timestamp;
+  },
 
-        this._timestamp = x;
-        var date = new Date();
-        date.setTime(parseFloat(x));
-        this.lastModified.textContent = modifiedString(date);
-    },
-	
+  set timestamp(x) {
+    if (this._timestamp == x) return;
+    this._timestamp = x;
+    var date = new Date();
+    date.setTime(parseFloat(x));
+    this.lastModified.textContent = modifiedString(date);
+  },
 
-    getLeft: function() {
-        return this.note.style.left;
-    },
 
-    setLeft: function(x) {
-        this.note.style.left = x;
-    },
-	
-    getTop: function() {
-        return this.note.style.top;
-    },
+  getLeft: function() {
+    return this.note.style.left;
+  },
 
-    setTop: function(x) {
-        this.note.style.top = x;
-    },
-	
-    get zIndex() {
-        return this.note.style.zIndex;
-    },
+  setLeft: function(x) {
+    this.note.style.left = x;
+  },
 
-    set zIndex(x) {
-        this.note.style.zIndex = x;
-    }, 
-    close: function(event) {
-        this.cancelPendingSave();
+  getTop: function() {
+    return this.note.style.top;
+  },
 
-        var note = this;
-        db.remove(note.id);
-        
-        var duration = event.shiftKey ? 2 : .25;
-        this.note.style.webkitTransition = '-webkit-transform ' + duration + 's ease-in, opacity ' + duration + 's ease-in';
-        this.note.offsetTop; // Force style recalculation
-        this.note.style.webkitTransformOrigin = "0 0";
-        this.note.style.webkitTransform = 'skew(30deg, 0deg) scale(0)';
-        this.note.style.opacity = '0';
+  setTop: function(x) {
+    this.note.style.top = x;
+  },
 
-        var self = this;
-        setTimeout(function() { document.body.removeChild(self.note) }, duration * 1000);
-    },
+  get zIndex() {
+    return this.note.style.zIndex;
+  },
 
-    saveSoon: function() {
-        this.cancelPendingSave();
-        var self = this;
-        this._saveTimer = setTimeout(function() { self.save() }, 200);
-    },
+  set zIndex(x) {
+    this.note.style.zIndex = x;
+  },
+    
+  close: function(event) {
+    this.cancelPendingSave();
+    var note = this;
+    db.remove(note.id);
+    var duration = event.shiftKey ? 2 : .25;
+    this.note.style.webkitTransition = '-webkit-transform ' + duration + 's ease-in, opacity ' + duration + 's ease-in';
+    this.note.offsetTop; // Force style recalculation
+    this.note.style.webkitTransformOrigin = "0 0";
+    this.note.style.webkitTransform = 'skew(30deg, 0deg) scale(0)';
+    this.note.style.opacity = '0';
 
-    cancelPendingSave: function() {
-        if (!("_saveTimer" in this))
-            return;
-        clearTimeout(this._saveTimer);
-        delete this._saveTimer;
-    },
+    var self = this;
+    setTimeout(function() { document.body.removeChild(self.note) }, duration * 1000);
+  },
 
-    save: function() {
-        this.cancelPendingSave();
+  saveSoon: function() {
+    this.cancelPendingSave();
+    var self = this;
+    this._saveTimer = setTimeout(function() { self.save() }, 200);
+  },
 
-        if ("dirty" in this) {
-            this.timestamp = new Date().getTime();
-            delete this.dirty;
-        }
+  cancelPendingSave: function() {
+    if (!("_saveTimer" in this)) return;
+    clearTimeout(this._saveTimer);
+    delete this._saveTimer;
+  },
 
-		var note = this;
-	    
-	    if( db.exists(note.id) ) {
-			var newNote = db.read(note.id);
-			newNote.id   = note.id;
-			newNote.top  = note.top;
-			newNote.left = note.left;
-			newNote.text = note.text
-			newNote.timestamp = note.timestamp;
-            var noteToSave = { id: newNote.id, left: newNote.left, top: newNote.top, zIndex: note.zIndex, text: newNote.text, timestamp: newNote.timestamp }
-			db.save(newNote.id, newNote);
-			// console.log(newNote);
-		}
-    },
+  save: function() {
+    this.cancelPendingSave();
 
-    saveAsNew: function() {
-        this.timestamp = new Date().getTime();
-        
-        var note = this;
-        // console.log(note);
-        var noteToSave = { id: note.id, left: note.left, top: note.top, zIndex: note.zIndex, text: '', timestamp: note.timestamp }
-        db.save(note.id, noteToSave);
-    },
+    if ("dirty" in this) {
+      this.timestamp = new Date().getTime();
+      delete this.dirty;
+    }
 
-    onMouseDown: function(e) {
-        captured = this;
-        this.startX = e.clientX - this.note.offsetLeft;
-        this.startY = e.clientY - this.note.offsetTop;
-        this.zIndex = ++highestZ;
+    var note = this;
+    
+    if( db.exists(note.id) ) {
+      var newNote = db.read(note.id);
+      newNote.id   = note.id;
+      newNote.top  = note.top;
+      newNote.left = note.left;
+      newNote.text = note.text
+      newNote.timestamp = note.timestamp;
+      var noteToSave = { id: newNote.id, left: newNote.left, top: newNote.top, zIndex: note.zIndex, text: newNote.text, timestamp: newNote.timestamp }
+      db.save(newNote.id, newNote);
+      // console.log(newNote);
+    }
+  },
 
-        var self = this;
-        if (!("mouseMoveHandler" in this)) {
-            this.mouseMoveHandler = function(e) { return self.onMouseMove(e) }
-            this.mouseUpHandler = function(e) { return self.onMouseUp(e) }
-        }
+  saveAsNew: function() {
+    this.timestamp = new Date().getTime();
+    var note = this;
+    // console.log(note);
+    var noteToSave = { id: note.id, left: note.left, top: note.top, zIndex: note.zIndex, text: '', timestamp: note.timestamp }
+    db.save(note.id, noteToSave);
+  },
 
-        document.addEventListener('mousemove', this.mouseMoveHandler, true);
-        document.addEventListener('mouseup', this.mouseUpHandler, true);
+  onMouseDown: function(e) {
+    captured = this;
+    this.startX = e.clientX - this.note.offsetLeft;
+    this.startY = e.clientY - this.note.offsetTop;
+    this.zIndex = ++highestZ;
 
-        return false;
-    },
+    var self = this;
+    if (!("mouseMoveHandler" in this)) {
+      this.mouseMoveHandler = function(e) { return self.onMouseMove(e) }
+      this.mouseUpHandler = function(e) { return self.onMouseUp(e) }
+    }
 
-    onMouseMove: function(e) {
-        if (this != captured)
-            return true;
+    document.addEventListener('mousemove', this.mouseMoveHandler, true);
+    document.addEventListener('mouseup', this.mouseUpHandler, true);
 
-        this.left = e.clientX - this.startX + 'px';
-        this.top = e.clientY - this.startY + 'px';
+    return false;
+  },
 
-        this.setLeft(this.left);
-		this.setTop(this.top);
-        return false;
-        
-    },
+  onMouseMove: function(e) {
+    if (this != captured) return true;
 
-    onMouseUp: function(e) {
-        document.removeEventListener('mousemove', this.mouseMoveHandler, true);
-        document.removeEventListener('mouseup', this.mouseUpHandler, true);
+    this.left = e.clientX - this.startX + 'px';
+    this.top = e.clientY - this.startY + 'px';
 
-        this.save();
-        return false;
-    },
+    this.setLeft(this.left);
+    this.setTop(this.top);
+    return false;
+      
+  },
 
-    onNoteClick: function(e) {
-        this.editField.focus();
-        getSelection().collapseToEnd();
-    },
+  onMouseUp: function(e) {
+    document.removeEventListener('mousemove', this.mouseMoveHandler, true);
+    document.removeEventListener('mouseup', this.mouseUpHandler, true);
 
-    onKeyUp: function() {
-        this.dirty = true;
-        this.saveSoon();
-    },
+    this.save();
+    return false;
+  },
+
+  onNoteClick: function(e) {
+    this.editField.focus();
+    getSelection().collapseToEnd();
+  },
+
+  onKeyUp: function() {
+    this.dirty = true;
+    this.saveSoon();
+  },
 }
 
 function initNotes() {
-	var localStorageKeys = Object.keys(localStorage);
-	// console.log(localStorageKeys);
-	for (var key in localStorageKeys){
-	    var currKey = parseInt(key) + 1;
-	    if( db.exists(currKey) ) {
-			var currNote = db.read(currKey);
-			
-			var note = new Note();
-			note.id = currNote.id;
-			note.text =currNote.text;
-			note.timestamp =currNote.timestamp;
-			note.left = currNote.left;
-			note.top = currNote.top;
-			note.zIndex = currNote.zindex;
-			note.setLeft(note.left);
-			note.setTop(note.top);
-			if (currNote.id > highestId)
-				highestId = currNote.id;
-			if (currNote.zindex > highestZ)
-				highestZ = currNote.zindex;			
-		}
-		// console.log(key)
-	}
-	return;
+var localStorageKeys = Object.keys(localStorage);
+// console.log(localStorageKeys);
+for (var key in localStorageKeys){
+    var currKey = parseInt(key) + 1;
+    if( db.exists(currKey) ) {
+    var currNote = db.read(currKey);
+    
+    var note = new Note();
+    note.id = currNote.id;
+    note.text =currNote.text;
+    note.timestamp =currNote.timestamp;
+    note.left = currNote.left;
+    note.top = currNote.top;
+    note.zIndex = currNote.zindex;
+    note.setLeft(note.left);
+    note.setTop(note.top);
+    if (currNote.id > highestId)
+      highestId = currNote.id;
+    if (currNote.zindex > highestZ)
+      highestZ = currNote.zindex;			
+  }
+  // console.log(key)
+}
+return;
 }
 
 function modifiedString(date) {
-    return 'Last Modified: ' + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+  return 'Last Modified: ' + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 }
 
 function newNote() {
-    var note = new Note();
-    note.id = ++highestId;
-    note.timestamp = new Date().getTime();
-    note.left = Math.round(Math.random() * 400) + 'px';
-    note.top = Math.round(Math.random() * 500) + 'px';
-    note.zIndex = ++highestZ;
-    note.saveAsNew();
+  var note = new Note();
+  note.id = ++highestId;
+  note.timestamp = new Date().getTime();
+  note.left = Math.round(Math.random() * 400) + 'px';
+  note.top = Math.round(Math.random() * 500) + 'px';
+  note.zIndex = ++highestZ;
+  note.saveAsNew();
 }
 
-if (db != null)
-    addEventListener('load', initNotes, false);
+if (db != null) addEventListener('load', initNotes, false);
