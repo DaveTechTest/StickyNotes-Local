@@ -54,6 +54,13 @@ body {
     text-align: right;
 }
 
+#chosen-name {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 5px;
+}
 /* START of OVERLAY CSS */
 .overlay{
     background:transparent url(../images/overlay.png) repeat top left;
@@ -93,11 +100,11 @@ a.boxclose{
 }
 
 .box h1{
-    border-bottom: 1px dashed #7F7F7F;
+    border-bottom: 1px solid #7F7F7F;
     margin:-20px -20px 0px -20px;
     padding:10px;
-    background-color:#FFEFEF;
-    color:#EF7777;
+    background-color:#004076;
+    color:#E0E0E0;
     -moz-border-radius:20px 20px 0px 0px;
     -webkit-border-top-left-radius: 20px;
     -webkit-border-top-right-radius: 20px;
