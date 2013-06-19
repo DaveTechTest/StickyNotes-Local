@@ -94,8 +94,9 @@ button:active{
 /* START STYLED Select Box */
 span.customSelect {
   background-color: white;
-  margin-left: 60px;
   padding: 6px 10px;
+  width: 90%;
+
   border: 4px solid #b7bfcf;
   background: url(../images/select-box-bg.gif) right center;
   -webkit-border-radius: 10px;
@@ -123,6 +124,7 @@ span.customSelect.customSelectOpen {
 
 #username {
   width: 300px;
+  overflow: hidden;
 }
 /* END STYLED Select Box */
 
