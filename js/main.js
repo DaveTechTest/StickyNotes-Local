@@ -6,7 +6,7 @@ $(function() {
 
   $('#boxclose').click(function(){ // Overlay box close
       if(currentUser != "") {
-        $('#box').animate({'top':'-200px'},500,function(){ $('#overlay').fadeOut('fast'); });
+        $('#box').animate({'top':'-500px'},500,function(){ $('#overlay').fadeOut('fast'); });
       } else {
         $.msgBox({
           title:  'No Username Chosen',
