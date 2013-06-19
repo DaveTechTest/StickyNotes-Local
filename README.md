@@ -15,7 +15,7 @@ To install, clone this repo and run the demo using your web-browser.
 
 ## Screenshot
 
-![alt text](http://stickynotes.6te.net/screenshot.png "StickyNote-Local Screenshot")
+![alt text](http://stickynotes.6te.net/screenshot-client.png "StickyNote-Local Screenshot")
 
 ## Demo
 
