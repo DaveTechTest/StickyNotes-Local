@@ -55,15 +55,6 @@ button:active{
     width: 30px;
 }
 
-.pickerbutton {
-    background-image: url(../images/deleteButton.png);
-    height: 30px;
-    position: absolute;
-    left: 178px;
-    top: -15px;
-    width: 30px;
-}
-
 .closebutton:active {
     background-image: url(../images/deleteButtonPressed.png);
 }
