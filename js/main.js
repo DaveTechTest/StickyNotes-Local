@@ -21,7 +21,7 @@ $(function() {
       $('#chosen-name').text(currentUser);
       $.msgBox({
         type   : 'info',  
-        title  : 'Username chosen',
+        title  : 'Username',
         content: 'Hello ' + currentUser + ' !',
         beforeClose: function () { loadNotes(currentUser) }
       });
