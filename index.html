@@ -1,22 +1,25 @@
 <html>
 <head>
   <title>Stricky Notes by Davis</title>
+  
   <link rel="stylesheet" type="text/css" href="css/style.css" >
   <link rel="stylesheet" type="text/css" href="css/msgBoxLight.css" >
+  <link rel="stylesheet" type="text/css" href="css/spectrum.css" >
+  
   <script src='js/jquery-1.9.1.min.js'></script>
-  <script src='js/jquery.simple-color-picker.js'></script>
   <script src='js/jquery.customSelect.js'></script>
   <script src='js/jquery.msgBox.js'></script>
+  <script src='js/spectrum.js'></script>  
   <script src='js/localstorage.js'></script>
-  <script src='js/stiky.note.js'></script>
+  <script src='js/stikynote.js'></script>
   <script src='js/main.js'></script>
-
 </head>
 <body>
+  <input type='text' class="basic"/>
   <button id="newNoteButton" onclick="newNote()">New Note</button>
   
   <!-- Name to appear one username is selected -->
-  <span id="chosen-name"></span>
+  <span id="chosen-name" class="color"></span>
   
   <!-- Dark Overlay Background -->
   <div class="overlay" id="overlay" style="display:none;"></div>

@@ -33,7 +33,7 @@ button:active{
 }
 
 .note {
-    background-color: rgb(255, 240, 70);
+    /*background-color: rgb(255, 240, 70);*/
     height: 200px;
     padding: 10px;
     position: absolute;
@@ -55,16 +55,14 @@ button:active{
     width: 30px;
 }
 
-.closebutton {
-    display: none;
+.pickerbutton {
     background-image: url(../images/deleteButton.png);
     height: 30px;
     position: absolute;
-    left: 15px;
-    top: 0px;
-    width: 100px;
+    left: 178px;
+    top: -15px;
+    width: 30px;
 }
-
 
 .closebutton:active {
     background-image: url(../images/deleteButtonPressed.png);
@@ -80,8 +78,8 @@ button:active{
     right: 0px;
     bottom: 0px;
     font-size: 9px;
-    background-color: #db0;
-    color: white;
+    /*background-color: #db0;*/
+    color: black;
     border-top: 1px solid #a80;
     padding: 2px 4px;
     text-align: right;
@@ -188,3 +186,6 @@ a.boxclose{
     -khtml-border-top-right-radius: 20px;
 }
 /* END of Overlay CSS */
+
+             #picker { width: 200px; height: 200px }
+                  #slide { width: 30px; height: 200px }

@@ -1,16 +1,19 @@
 /** 
- * A sticky note object based on one of the webkit 
- * samples and highly re-factored to use local storage 
- * instead of Web SQL (compatible with Firefox and IE)
+ * A sticky note object based on one of the webkit samples
+ * and highly re-factored to use local storage instead
+ * of Web SQL (Web SQL not compatible with Firefox and IE). 
+ * Other additions includes note's background color and note 
+ * per user.
  * 
- * Addition abd re-factoring: Davis Desormeaux
+ * Addition and re-factoring: Davis Desormeaux
  * License: WebKit is open source software with portions licensed under the LGPL and BSD licenses. 
  *
  **/
 
 var ns = "StickyNote", 
-    db = utils.storage;
-
+    db = utils.storage,
+    noteColor = "#FFF046";
+    
 db.init(ns, true);
 //db.clear(); // Fix for Firefox when changing namespace (ns)...
 
@@ -22,8 +25,8 @@ var captured = null,
 function Note() {
   
   var self = this;
-  
   var note = document.createElement('div');
+  $(note).css('background-color', noteColor);
   note.className = 'note';
   note.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
   note.addEventListener('click', function() { return self.onNoteClick() }, false);
@@ -33,21 +36,23 @@ function Note() {
   close.className = 'closebutton';
   close.addEventListener('click', function(event) { return self.close(event) }, false);
   note.appendChild(close);
-    
+  
   var edit = document.createElement('div');
   edit.className = 'edit';
   edit.setAttribute('contenteditable', true);
   edit.addEventListener('keyup', function() { return self.onKeyUp() }, false);
   note.appendChild(edit);
   this.editField = edit;
-
+  
   var ts = document.createElement('div');
   ts.className = 'timestamp';
   ts.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
   note.appendChild(ts);
   this.lastModified = ts;
 
+
   document.body.appendChild(note);
+
   return this;
 }
 
@@ -145,9 +150,11 @@ Note.prototype = {
       newNote.top  = note.top;
       newNote.left = note.left;
       newNote.text = note.text
+      newNote.color = note.color
+     
       newNote.timestamp = note.timestamp;
-      var noteToSave = { id: newNote.id, username: newNote.username, left: newNote.left, top: newNote.top, zIndex: note.zIndex, text: newNote.text, timestamp: newNote.timestamp }
-      db.save(newNote.id, newNote);
+      var noteToSave = { id: newNote.id, username: newNote.username, color: note.color, left: newNote.left, top: newNote.top, zIndex: note.zIndex, text: newNote.text, timestamp: newNote.timestamp };
+      db.save(newNote.id, noteToSave);
       // console.log(newNote);
     }
   },
@@ -155,8 +162,7 @@ Note.prototype = {
   saveAsNew: function() {
     this.timestamp = new Date().getTime();
     var note = this;
-    // console.log(note);
-    var noteToSave = { id: note.id, username: note.username, left: note.left, top: note.top, zIndex: note.zIndex, text: '', timestamp: note.timestamp }
+    var noteToSave = { id: note.id, username: note.username, color: note.color, left: note.left, top: note.top, zIndex: note.zIndex, text: '', timestamp: note.timestamp };
     db.save(note.id, noteToSave);
   },
 
@@ -228,9 +234,10 @@ function loadNotes(username) {
       note.left = currNote.left;
       note.top = currNote.top;
       note.zIndex = currNote.zindex;
+      note.color = currNote.color;
       note.setLeft(note.left);
       note.setTop(note.top);
-	
+      $(note.note).css('background-color', note.color);
     }
   }
 }
@@ -247,5 +254,6 @@ function newNote() {
   note.top = Math.round(Math.random() * 500) + 'px';
   note.zIndex = ++highestZ;
   note.username = currentUser;
+  note.color = noteColor;
   note.saveAsNew();
 }
