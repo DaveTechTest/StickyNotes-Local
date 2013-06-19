@@ -36,6 +36,5 @@ $(function() {
 
   $('#username').val(""); // FireFox fix
   $('.customSelect').customSelect();
-
-
+  
 });

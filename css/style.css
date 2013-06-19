@@ -95,10 +95,9 @@ button:active{
 span.customSelect {
   background-color: white;
   padding: 6px 10px;
-  width: 90%;
-
+  width: 95%;
   border: 4px solid #b7bfcf;
-  background: url(../images/select-box-bg.gif) right center;
+  background: url(../images/select-box-bg.gif) right center no-repeat;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
@@ -119,7 +118,7 @@ span.customSelect.customSelectFocus {
 
 span.customSelect.customSelectOpen {
   border-color: #5d5074;
-  background: url(../images/select-box-bg-on.gif) right center;
+  background: url(../images/select-box-bg-on.gif) right center no-repeat;;
 }
 
 #username {
