@@ -8,9 +8,9 @@ Sticky-Note App using local storage
 To install, clone this repo and run the demo using your web-browser.
 
 ```bash
-[/srv]# git clone https://github.com/DaveTechTest/StickyNotes-Local.git
-[/srv]# cd StickyNotes-Local
-[/srv]# firefox index.html
+# git clone https://github.com/DaveTechTest/StickyNotes-Local.git
+# cd StickyNotes-Local
+# firefox index.html
 ```
 
 ## Screenshot
@@ -19,4 +19,4 @@ To install, clone this repo and run the demo using your web-browser.
 
 ## Demo
 
-[HighCharts.PHP Demo](http://stickynotes.6te.net/ "StickyNote-Local Demo")
+[StickyNote-Local Demo](http://stickynotes.6te.net/ "StickyNote-Local Demo")
