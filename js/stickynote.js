@@ -15,7 +15,7 @@ var ns = "StickyNote",
     noteColor = "#FFF046";
     
 db.init(ns, true);
-//db.clear(); // Fix for Firefox when changing namespace (ns)...
+db.clear(); // Fix for Firefox when changing namespace (ns)...
 
 var captured = null,
     highestZ = 0,
